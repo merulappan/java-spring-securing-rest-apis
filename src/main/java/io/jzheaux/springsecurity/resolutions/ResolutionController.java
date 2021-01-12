@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,8 @@ public class ResolutionController {
 	public ResolutionController(ResolutionRepository resolutions) {
 		this.resolutions = resolutions;
 	}
-
+	
+	@CrossOrigin(allowCredentials = "true")
 	@GetMapping("/resolutions")
 	@PreAuthorize("hasAuthority('resolution:read')")
 	@PostFilter("@post.filter(#root)")
