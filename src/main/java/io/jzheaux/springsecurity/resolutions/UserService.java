@@ -2,8 +2,24 @@ package io.jzheaux.springsecurity.resolutions;
 
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Service
 public class UserService {
-	public Optional<String> getFullName(String username) {
-		return Optional.empty();
-	}
+	
+    private final WebClient web;
+
+    public UserService(WebClient.Builder web) {
+        this.web = web.build();
+    }
+
+    public Optional<String> getFullName(String username) {
+        String fullName = this.web.get()
+                .uri("/user/{username}/fullName", username)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        return Optional.ofNullable(fullName);
+    }
 }
